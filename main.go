@@ -7,6 +7,5 @@ import (
 )
 
 func main() {
-	prices := []int{3, 2, 6, 5, 0, 3}
-	fmt.Println(leetcode.MaxProfit188(2, prices))
+	fmt.Println(leetcode.MinDistance("ab", "ab"))
 }
