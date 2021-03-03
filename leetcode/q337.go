@@ -59,3 +59,34 @@ func calRobIII(root *TreeNode, pickMe bool) int {
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
+
+// 用空间换时间
+
+var cmap = make(map[*TreeNode]map[bool]int)
+
+func robV2(root *TreeNode) int {
+	return calRobIIIV2(root, true)
+}
+
+func calRobIIIV2(root *TreeNode, pickMe bool) int {
+	if root == nil {
+		return 0
+	}
+	if v, ok := cmap[root][pickMe]; ok {
+		return v
+	}
+	if !pickMe {
+		ret := calRobIIIV2(root.Left, true) + calRobIIIV2(root.Right, true)
+		if cmap[root] == nil {
+			cmap[root] = map[bool]int{}
+		}
+		cmap[root][pickMe] = ret
+		return ret
+	}
+	ret := max(root.Val+calRobIIIV2(root.Left, false)+calRobIIIV2(root.Right, false), calRobIIIV2(root.Left, true)+calRobIIIV2(root.Right, true))
+	if cmap[root] == nil {
+		cmap[root] = map[bool]int{}
+	}
+	cmap[root][pickMe] = ret
+	return ret
+}
