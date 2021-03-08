@@ -58,9 +58,10 @@ package leetcode
 
 //leetcode submit region begin(Prohibit modification and deletion)
 type LRUCache struct {
-	cmap     map[int]*Node
-	dlist    *DoubleLinkedList
-	capacity int
+	size       int
+	capacity   int
+	head, last *Node
+	cmap       map[int]*Node
 }
 
 func (this *LRUCache) setMap(key int, val *Node) {
@@ -75,33 +76,24 @@ type Node struct {
 	pre, next *Node
 }
 
-type DoubleLinkedList struct {
-	size       int
-	head, last *Node
-}
-
-func (l *DoubleLinkedList) GetSize() int {
-	return l.size
-}
-
-func (l *DoubleLinkedList) AddFirst(node *Node) {
-	if l.size == 0 {
+func (this *LRUCache) addFirst(node *Node) {
+	if this.size == 0 {
 		node.pre = nil
 		node.next = nil
-		l.head = node
-		l.last = node
+		this.head = node
+		this.last = node
 	} else {
-		h := l.head
+		h := this.head
 		h.pre = node
-		l.head = node
-		l.head.pre = nil
-		l.head.next = h
+		this.head = node
+		this.head.pre = nil
+		this.head.next = h
 	}
-	l.size++
+	this.size++
 }
 
-func (l *DoubleLinkedList) Remove(node *Node) {
-	if l.size == 0 || node == nil {
+func (this *LRUCache) remove(node *Node) {
+	if this.size == 0 || node == nil {
 		return
 	}
 	pre := node.pre
@@ -112,27 +104,26 @@ func (l *DoubleLinkedList) Remove(node *Node) {
 	if next != nil {
 		next.pre = pre
 	}
-	if l.head == node {
-		l.head = next
+	if this.head == node {
+		this.head = next
 	}
-	if l.last == node {
-		l.last = pre
+	if this.last == node {
+		this.last = pre
 	}
-	l.size--
+	this.size--
 }
 
-func (l *DoubleLinkedList) RemoveLast() *Node {
-	if l.size == 0 {
+func (this *LRUCache) removeLast() *Node {
+	if this.size == 0 {
 		return nil
 	}
-	last := l.last
-	l.Remove(l.last)
+	last := this.last
+	this.remove(this.last)
 	return last
 }
 
 func Constructor(capacity int) LRUCache {
 	return LRUCache{
-		dlist:    new(DoubleLinkedList),
 		capacity: capacity,
 	}
 }
@@ -153,16 +144,16 @@ func (this *LRUCache) Put(key int, value int) {
 	}
 	v, ok := this.cmap[key]
 	if ok {
-		this.dlist.Remove(v)
-		this.dlist.AddFirst(node)
+		this.remove(v)
+		this.addFirst(node)
 		this.setMap(key, node)
 	} else {
-		if this.dlist.GetSize() == this.capacity {
-			last := this.dlist.RemoveLast()
+		if this.size == this.capacity {
+			last := this.removeLast()
 			delete(this.cmap, last.key)
 		}
 		this.setMap(key, node)
-		this.dlist.AddFirst(node)
+		this.addFirst(node)
 	}
 }
 
