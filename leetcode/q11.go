@@ -50,33 +50,31 @@ package leetcode
 // 👍 2247 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
-func MaxArea(height []int) int {
-	n := len(height)
-	left, right := 0, n-1
-	ret := area(height, left, right)
+func maxArea(height []int) int {
+	left := 0
+	right := len(height) - 1
+	max := getMin(height[left], height[right]) * (right - left)
 	for left < right {
-		if height[left] < height[right] {
-			left++
-		} else {
+		if height[left] > height[right] {
 			right--
+		} else {
+			left++
 		}
-		if a := area(height, left, right); a > ret {
-			ret = a
+		if left >= right {
+			break
+		}
+		if area := getMin(height[left], height[right]) * (right - left); area > max {
+			max = area
 		}
 	}
-	return ret
+	return max
 }
 
-func area(height []int, i, j int) int {
-	h := height[i]
-	if height[j] < height[i] {
-		h = height[j]
+func getMin(a, b int) int {
+	if a > b {
+		return b
 	}
-	width := j - i
-	if j < i {
-		width = -width
-	}
-	return width * h
+	return a
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
