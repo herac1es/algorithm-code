@@ -12,6 +12,6 @@ import (
 //				期望结果:[null,null,null,null,null,4,3,2,-1,null,-1,2,3,-1,5]
 //				stdout:
 func main() {
-	a := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
-	fmt.Println(leetcode.MaxArea(a))
+	a := []int{0, 0, 0}
+	fmt.Println(leetcode.ThreeSum(a))
 }
