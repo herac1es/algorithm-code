@@ -1,5 +1,6 @@
 package classic
 
+// 二分查找
 // 给定一个有序递增数组，找出数组中目标值为target的元素索引，若不存在则返回-1
 // func BinarySearch(nums []int, target int) int {
 // 	// 定义操作区间为[l:r]
