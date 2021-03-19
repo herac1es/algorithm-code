@@ -17,11 +17,14 @@ package classic
 // 	return -1
 // }
 
+// 时间：O(lgN)
+// 空间：O(1)
 func BinarySearch(nums []int, target int) int {
 	// 定义操作区间为[l:r)
 	l, r := 0, len(nums)
+	mid := 0
 	for l < r {
-		mid := l + (r-l)/2
+		mid = l + (r-l)/2
 		if nums[mid] == target {
 			return mid
 		} else if nums[mid] < target {

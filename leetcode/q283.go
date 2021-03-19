@@ -21,19 +21,21 @@ func moveZeroes(nums []int) {
 	n := len(nums)
 	i, j := 0, 0
 	for i < n && j < n {
-		for i < n {
+		for i < n { // 从左往右找第一个为0的数
 			if nums[i] != 0 {
 				i++
 			}
+			break
 		}
-		for j < n {
+		for j < n { // 从左往右找第一个不为0的数
 			if nums[j] == 0 {
 				j++
 			}
+			break
 		}
-		if j > i && j < n {
+		if i < j && j < n { // 如果没有索引有效并且0在非0值前，则交换这两个数
 			nums[i], nums[j] = nums[j], nums[i]
-		} else if i >= j {
+		} else if i > j { // 如果 0在非0之后，将非零指针直接移动到0指针之后
 			j = i + 1
 		}
 	}
