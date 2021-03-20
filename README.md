@@ -1,2 +1,4 @@
 # algorithm-code
-leetcode practice repo
+my algorithm code repo in Go
+
+## Leetcode Solution
