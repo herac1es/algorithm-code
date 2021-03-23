@@ -75,49 +75,49 @@ func lengthOfLongestSubstring(s string) int {
 // hashmap记录法:
 // 时间：O(n)
 // 空间：O(n)
-// func lengthOfLongestSubstring(s string) int {
-// 	Map := make(map[byte]int, len(s))
-// 	ret := 0
-// 	depth := 0
-// 	for i := 0; i < len(s); i++ {
-// 		depth++
-// 		if lastIdx, ok := Map[s[i]]; ok {
-// 			if i-lastIdx < depth {
-// 				depth = i - lastIdx
-// 			}
-// 		}
-// 		if depth > ret {
-// 			ret = depth
-// 		}
-// 		Map[s[i]] = i
-// 	}
-// 	return ret
-// }
+func lengthOfLongestSubstringMap(s string) int {
+	Map := make(map[byte]int, len(s))
+	ret := 0
+	depth := 0
+	for i := 0; i < len(s); i++ {
+		depth++
+		if lastIdx, ok := Map[s[i]]; ok {
+			if i-lastIdx < depth {
+				depth = i - lastIdx
+			}
+		}
+		if depth > ret {
+			ret = depth
+		}
+		Map[s[i]] = i
+	}
+	return ret
+}
 
-// 动态规划：时间:O(n2)
+// 动态规划：时间:O(n) // 最坏的情况（整个字符串没有重复），时间复杂度上升到O(n2)
 // 空间：O(n)
-// func lengthOfLongestSubstring(s string) int {
-// 	if len(s) == 0 {
-// 		return 0
-// 	}
-// 	dp := make([]int, len(s)) // 代码以s[i]结尾的最长不重复子串长度
-// 	for i := range dp {
-// 		dp[i] = 1
-// 	}
-// 	for i := 1; i < len(s); i++ {
-// 		dp[i] = dp[i-1] + 1
-// 		for j := i - 1; j >= 0 && j < len(s) && j >= i-1-dp[i-1]+1; j-- {
-// 			if s[j] == s[i] {
-// 				dp[i] = i - j
-// 				break
-// 			}
-// 		}
-// 	}
-// 	ret := 0
-// 	for i := range dp {
-// 		if dp[i] > ret {
-// 			ret = dp[i]
-// 		}
-// 	}
-// 	return ret
-// }
+func lengthOfLongestSubstringDp(s string) int {
+	if len(s) == 0 {
+		return 0
+	}
+	dp := make([]int, len(s)) // 代码以s[i]结尾的最长不重复子串长度
+	for i := range dp {
+		dp[i] = 1
+	}
+	for i := 1; i < len(s); i++ {
+		dp[i] = dp[i-1] + 1
+		for j := i - 1; j >= 0 && j < len(s) && j >= i-1-dp[i-1]+1; j-- {
+			if s[j] == s[i] {
+				dp[i] = i - j
+				break
+			}
+		}
+	}
+	ret := 0
+	for i := range dp {
+		if dp[i] > ret {
+			ret = dp[i]
+		}
+	}
+	return ret
+}
