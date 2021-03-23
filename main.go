@@ -3,5 +3,6 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println(1 << 10)
+	a := make(map[int]struct{}, 10)
+	fmt.Println(len(a))
 }
