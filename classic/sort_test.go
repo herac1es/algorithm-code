@@ -14,12 +14,12 @@ func TestSort(t *testing.T) {
 		args args
 		want []int
 	}{
-		{
-			args: args{
-				nums: []int{1},
-			},
-			want: []int{1},
-		},
+		// {
+		// 	args: args{
+		// 		nums: []int{1},
+		// 	},
+		// 	want: []int{1},
+		// },
 		{
 			args: args{
 				nums: []int{1, 4, 2, 1, 7, 8, 8},
@@ -29,7 +29,7 @@ func TestSort(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := InsertionSort(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
+			if got := MergeSort(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("SelectionSort() = %v, want %v", got, tt.want)
 			}
 		})
