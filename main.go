@@ -1,8 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+
+	"github.com/iwillbesober/algorithm-code/classic"
+)
 
 func main() {
-	a := make(map[int]struct{}, 10)
-	fmt.Println(len(a))
+	pq := classic.New()
+	for i := 0; i < 10; i++ {
+		pq.Push(rand.Intn(100) + 1)
+	}
+	fmt.Println(pq.List())
 }
