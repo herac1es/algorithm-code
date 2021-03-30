@@ -24,19 +24,18 @@ package leetcode
 
 //leetcode submit region begin(Prohibit modification and deletion)
 func containsNearbyDuplicate(nums []int, k int) bool {
-	l, r := 0, -1
+	l, r := 0, 0
 	mp := make(map[int]struct{})
-	for r < len(nums)-1 {
-		if r-l < k {
-			if _, ok := mp[nums[r+1]]; ok {
-				return true
-			}
-			r++
-			mp[nums[r]] = struct{}{}
-			continue
+	for r < len(nums) {
+		if _, ok := mp[nums[r]]; ok {
+			return true
 		}
-		delete(mp, nums[l])
-		l++
+		mp[nums[r]] = struct{}{}
+		r++
+		if len(mp) == k+1 {
+			delete(mp, nums[l])
+			l++
+		}
 	}
 	return false
 }
