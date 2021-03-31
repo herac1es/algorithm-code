@@ -20,6 +20,9 @@ package leetcode
  *     Next *ListNode
  * }
  */
+// 迭代法
+// 时间: O(n)
+// 空间: O(1)
 func reverseBetween(head *ListNode, left int, right int) *ListNode {
 	if left == 1 {
 		return reverseN(head, right, nil)
@@ -41,3 +44,37 @@ func reverseN(head *ListNode, n int, next *ListNode) *ListNode {
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
+
+// 指针法
+func reverseBetweenSolutionII(head *ListNode, left int, right int) *ListNode {
+	depth := 0
+	dummy := new(ListNode)
+	dummy.Next = head
+	pre := dummy
+	cur := new(ListNode)
+	for i := 0; i < left-1; i++ {
+		pre = pre.Next
+	}
+	lp := pre // 记录第left节点的前一个节点
+	pre = pre.Next
+	cur = pre.Next
+	var next *ListNode
+	if cur != nil {
+		next = cur.Next
+	}
+	depth = 0
+	for cur != nil && depth < right-left { // 按照基础反转链表的过程反转从left到right的节点
+		cur.Next = pre
+		pre = cur
+		cur = next
+		if next != nil {
+			next = next.Next
+		}
+		depth++
+	}
+	// 此时pre指向第right个节点
+	// lp.Next是反转前的第left个节点
+	lp.Next.Next = cur
+	lp.Next = pre
+	return dummy.Next
+}
