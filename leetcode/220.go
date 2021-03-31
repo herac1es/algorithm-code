@@ -51,7 +51,7 @@ func containsNearbyAlmostDuplicate(nums []int, k int, t int) bool {
 }
 
 func getBucket(num int, t int) int64 {
-	if num < 0 {
+	if num < 0 { // 负数需要往左偏移一个桶，保证0号桶里只有t个容量
 		return int64(num/(t+1)) - 1
 	}
 	return int64(num / (t + 1))
