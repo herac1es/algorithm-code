@@ -22,6 +22,9 @@ package leetcode
  */
 // 递归
 func reverseList(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
 	if head.Next == nil {
 		return head
 	}
@@ -32,3 +35,26 @@ func reverseList(head *ListNode) *ListNode {
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
+
+// 迭代法
+// 时间: O(n)
+// 空间: O(1)
+func reverseListDD(head *ListNode) *ListNode {
+	pre := (*ListNode)(nil)
+	cur := head
+	var (
+		next *ListNode
+	)
+	if cur != nil {
+		next = cur.Next
+	}
+	for cur != nil {
+		cur.Next = pre
+		pre = cur
+		cur = next
+		if next != nil {
+			next = next.Next
+		}
+	}
+	return pre
+}
