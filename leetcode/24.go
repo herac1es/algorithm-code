@@ -53,15 +53,34 @@ package leetcode
 // 递归
 // 时间: O(n)
 // 空间: O(n)
-func swapPairs(head *ListNode) *ListNode {
+func swapPairsII(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	next := swapPairs(head.Next.Next)
+	next := swapPairsII(head.Next.Next)
 	after := head.Next
 	head.Next = next
 	after.Next = head
 	return after
+}
+
+// 迭代
+// 时间：O(n)
+// 空间: O(1)
+func swapPairs(head *ListNode) *ListNode {
+	dummy := new(ListNode)
+	dummy.Next = head
+	pre := dummy
+	cur := head
+	for cur != nil && cur.Next != nil {
+		next := cur.Next
+		pre.Next = next
+		cur.Next = next.Next
+		next.Next = cur
+		pre = cur
+		cur = cur.Next
+	}
+	return dummy.Next
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
