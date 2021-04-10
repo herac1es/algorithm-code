@@ -11,7 +11,7 @@ func MergeSort(nums []int) []int {
 	return nums
 }
 
-// 自顶向上
+// 自底向上
 func mergeSort(nums []int) {
 	n := len(nums)
 	for size := 1; size < n; size *= 2 {
