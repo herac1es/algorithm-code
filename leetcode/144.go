@@ -96,25 +96,11 @@ func NewCommand(op uint8, node *TreeNode) Command {
 	}
 }
 
-func NewCommandGroup(root *TreeNode) []Command {
-	if root == nil {
-		return []Command{}
-	}
-	return []Command{
-		NewCommand(Op.AddFunc, root.Right),
-		NewCommand(Op.AddFunc, root.Left),
-		NewCommand(Op.GetVal, root),
-	}
-}
-
-// 模拟函数栈
-// 时间：O(n)
-// 空间: O(n)
-func preorderIteration(root *TreeNode) []int {
+func orderIteration(root *TreeNode, f func(root *TreeNode) []Command) []int {
 	ret := make([]int, 0)
 
 	stack := make([]Command, 0, 3)
-	stack = append(stack, NewCommandGroup(root)...)
+	stack = append(stack, f(root)...)
 
 	for len(stack) != 0 {
 		c := stack[len(stack)-1]
@@ -123,12 +109,28 @@ func preorderIteration(root *TreeNode) []int {
 			continue
 		}
 		if c.Op == Op.AddFunc {
-			stack = append(stack, NewCommandGroup(c.Node)...)
+			stack = append(stack, f(c.Node)...)
 		} else {
 			ret = append(ret, c.Node.Val)
 		}
 	}
 	return ret
+}
+
+// 模拟函数栈
+// 时间：O(n)
+// 空间: O(n)
+func preorderIteration(root *TreeNode) []int {
+	return orderIteration(root, func(root *TreeNode) []Command {
+		if root == nil {
+			return nil
+		}
+		return []Command{
+			NewCommand(Op.AddFunc, root.Right),
+			NewCommand(Op.AddFunc, root.Left),
+			NewCommand(Op.GetVal, root),
+		}
+	})
 }
 
 // 递归
