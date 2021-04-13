@@ -64,9 +64,21 @@ package leetcode
  * }
  */
 func inorderTraversal(root *TreeNode) []int {
-	ret := make([]int, 0)
-	traversal(root, &ret)
-	return ret
+
+	return orderIteration(root, func(root *TreeNode) []Command {
+		if root == nil {
+			return nil
+		}
+		return []Command{
+			NewCommand(Op.AddFunc, root.Right),
+			NewCommand(Op.GetVal, root),
+			NewCommand(Op.AddFunc, root.Left),
+		}
+	})
+
+	// ret := make([]int, 0)
+	// traversal(root, &ret)
+	// return ret
 }
 
 func traversal(root *TreeNode, ret *[]int) {
