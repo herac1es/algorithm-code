@@ -35,6 +35,34 @@ package leetcode
 //leetcode submit region begin(Prohibit modification and deletion)
 func numSquares(n int) int {
 
+	// [2]{x,y} x:当前的节点 y:走的步数
+	queue := make([][2]int, 1)
+	queue[0] = [2]int{n, 0}
+
+	visited := make([]int, n+1)
+	visited[n] = 1
+
+	for len(queue) > 0 {
+		num := queue[0][0]
+		step := queue[0][1]
+		queue = queue[1:]
+
+		for i := 1; ; i++ {
+			next := num - i*i
+			if next < 0 {
+				break
+			}
+			if next == 0 {
+				return step + 1
+			}
+			if visited[next] == 1 {
+				continue
+			}
+			queue = append(queue, [2]int{next, step + 1})
+			visited[next] = 1
+		}
+	}
+	return -1
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
