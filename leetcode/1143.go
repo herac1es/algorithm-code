@@ -44,15 +44,18 @@ package leetcode
 // 👍 381 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
+
 func LongestCommonSubsequence(text1 string, text2 string) int {
-	n1 := len(text1)
-	n2 := len(text2)
-	dp := make([][]int, n1+1)
+	len1 := len(text1)
+	len2 := len(text2)
+
+	dp := make([][]int, len1+1)
 	for i := range dp {
-		dp[i] = make([]int, n2+1)
+		dp[i] = make([]int, len2+1)
 	}
-	for i := 1; i <= n1; i++ {
-		for j := 1; j <= n2; j++ {
+
+	for i := 1; i <= len1; i++ {
+		for j := 1; j <= len2; j++ {
 			if text1[i-1] == text2[j-1] {
 				dp[i][j] = dp[i-1][j-1] + 1
 			} else {
@@ -60,7 +63,8 @@ func LongestCommonSubsequence(text1 string, text2 string) int {
 			}
 		}
 	}
-	return dp[n1][n2]
+	return dp[len1][len2]
+
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
