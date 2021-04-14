@@ -8,7 +8,9 @@ my algorithm code repo in Go
 <https://leetcode-cn.com/problems/longest-common-subsequence/>
 
 定义 dp 数组: dp\[i][j] 为 text1[0: i-1] 和 text2[0: j-1] 的最长公共子序列
+
 base: 当 i = 0 或者 j = 0 时，区间里没有字符，所以 dp\[i][j] = 0
+
 当 text1\[i-1] = text2\[j-1] 时, dp\[i]\[j] = dp\[i-i][j-1]+ 1
 否则等于 dp\[i-1]\[j] 和 dp\[i][j-1] 中较大的一个
 
