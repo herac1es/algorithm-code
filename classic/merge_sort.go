@@ -43,7 +43,7 @@ func merge(nums []int, l, mid, r int) {
 	if len(aux) == 0 {
 		aux = make([]int, len(nums))
 	}
-	i, j := l, mid+1 // 对[l:mid-1]和[mid:r]归并
+	i, j := l, mid+1 // 对[l:mid]和[mid+1:r]归并
 	aux = append(aux[:0], nums...)
 	for k := l; k <= r; k++ {
 		if i > mid {
