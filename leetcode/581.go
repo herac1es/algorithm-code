@@ -41,3 +41,31 @@ func findUnsortedSubarray(nums []int) int {
 	}
 	return r - l + 1
 }
+
+// 栈解法
+// 时间：O(n)
+// 空间: O(n)
+func findUnsortedSubarrayII(nums []int) int {
+	stack := make([]int, 0, len(nums))
+	l := len(nums)
+	r := -1
+	for i := 0; i < len(nums); i++ {
+		for len(stack) > 0 && nums[stack[len(stack)-1]] > nums[i] {
+			l = min(l, stack[len(stack)-1])
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, i)
+	}
+	stack = stack[:0]
+	for i := len(nums) - 1; i >= 0; i-- {
+		for len(stack) > 0 && nums[stack[len(stack)-1]] < nums[i] {
+			r = max(r, stack[len(stack)-1])
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, i)
+	}
+	if r > l {
+		return r - l + 1
+	}
+	return 0
+}
