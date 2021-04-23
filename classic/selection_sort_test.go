@@ -24,14 +24,14 @@ func TestSort(t *testing.T) {
 		},
 		{
 			args: args{
-				nums: []int{1, 4, 2, 1, 7, 8, 8},
+				nums: []int{1, 3, 2, 4, 5},
 			},
-			want: []int{1, 1, 2, 4, 7, 8, 8},
+			want: []int{1, 2, 3, 4, 5},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := MergeSort(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
+			if got := QuickSort(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("SelectionSort() = %v, want %v", got, tt.want)
 			}
 		})

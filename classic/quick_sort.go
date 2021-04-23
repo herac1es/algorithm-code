@@ -5,7 +5,7 @@ package classic
 // 空间: O(1)
 func QuickSort(nums []int) []int {
 	// quickSort(nums, 0, len(nums)-1)
-	thirdPathQuickSort(nums, 0, len(nums)-1)
+	quickSort(nums, 0, len(nums)-1)
 	return nums
 }
 
@@ -21,19 +21,15 @@ func quickSort(nums []int, l, r int) {
 func partition(nums []int, l, r int) int {
 	i := l + 1
 	j := r
+	mid := l + (r-l)/2
+	nums[l], nums[mid] = nums[mid], nums[l]
 	v := nums[l]
 	for {
-		for nums[i] < v {
+		for i < r && nums[i] < v {
 			i++
-			if i == r {
-				break
-			}
 		}
 		for nums[j] > v {
 			j--
-			if j == l {
-				break
-			}
 		}
 		if i >= j {
 			break
