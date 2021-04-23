@@ -1,23 +1,19 @@
 package main
 
-import (
-	"fmt"
-)
-
 func main() {
 
-	var (
-		n    int
-		nums []int
-	)
+}
 
-	fmt.Scanf("%d", &n)
-	for i := 0; i < n; i++ {
-		var c int
-		fmt.Scanf("%d", &c)
-		nums = append(nums, c)
+func findCombination(nums []int, k int) int {
+	cnt := make(map[int]int, len(nums))
+	ret := 0
+	for _, v := range nums {
+		if count, ok := cnt[k-v]; ok {
+			ret += count
+		}
+		cnt[v]++
 	}
-	quickSort(nums, 0, len(nums)-1)
+	return ret
 }
 
 func quickSort(nums []int, l, r int) {
