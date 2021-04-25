@@ -34,21 +34,16 @@ package leetcode
 // 👍 1295 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
+// dp[i]：nums[0:i-1] 的最大金额
+// 时间：O(n)
+// 空间：O(1)
 func rob(nums []int) int {
-	n := len(nums)
-	if n <= 0 {
-		return 0
+	dp := make([]int, len(nums)+1)
+	dp[1] = nums[0]
+	for i := 2; i <= len(nums); i++ {
+		dp[i] = max(dp[i-2]+nums[i-1], dp[i-1])
 	}
-	if n == 1 {
-		return nums[0]
-	}
-	dp := make([]int, n)
-	dp[0] = nums[0]
-	dp[1] = max(nums[0], nums[1])
-	for i := 2; i < n; i++ {
-		dp[i] = max(dp[i-1], dp[i-2]+nums[i])
-	}
-	return dp[n-1]
+	return dp[len(nums)]
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
