@@ -1,10 +1,51 @@
 package main
 
 func main() {
-	var a map[string]int
-	a["2"] = 1
+	root := new(TreeNode)
+	root.Right = &TreeNode{
+		Val: 4,
+	}
+	kthLargest(root, 2)
 }
 
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+func kthLargest(root *TreeNode, k int) int {
+	ret := 0
+	kthRecur(root, &k, &ret)
+	return ret
+}
+
+func kthRecur(root *TreeNode, k *int, res *int) {
+	if root == nil {
+		return
+	}
+	kthRecur(root.Right, k, res)
+	if *k == 0 {
+		return
+	}
+	if root.Left == nil && root.Right == nil {
+		*k--
+	}
+	if *k == 0 {
+		*res = root.Val
+		return
+	}
+	kthRecur(root.Left, k, res)
+}
 func quickSort(nums []int, l, r int) {
 
 	if l >= r {
