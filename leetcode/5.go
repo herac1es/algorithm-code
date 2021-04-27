@@ -45,28 +45,32 @@ package leetcode
 // 👍 3288 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
+// 动态规划
+// 时间：O(n2)
+// 空间: O(n2)
 func LongestPalindrome(s string) string {
 	n := len(s)
-	maxLen := 1
 	ret := string(s[0])
+	// dp[i][j] : 字符串s[i:j]是否是回文字符串
 	dp := make([][]bool, n)
 	for i := range dp {
 		dp[i] = make([]bool, n)
 	}
+	// basecase：每一个字符本身是回文字符
 	for i := 0; i < n; i++ {
 		dp[i][i] = true
 	}
+	// dp[i][j]是回文字符串
+	// 1: 若 j = i+1，即只有两个字符，则看两个字符是否相等
+	// 2: 否则当且仅当 dp[i+1][j-1]为true ，且 s[i] == s[j]
 	for i := n - 2; i >= 0; i-- {
 		for j := i + 1; j < n; j++ {
-			if j == i+1 {
-				dp[i][j] = s[i] == s[j]
+			if j == i+1 && s[i] == s[j] {
+				dp[i][j] = true
 			} else if s[i] == s[j] {
 				dp[i][j] = dp[i+1][j-1]
-			} else {
-				dp[i][j] = false
 			}
-			if dp[i][j] == true && (j-i+1) > maxLen {
-				maxLen = j - i + 1
+			if dp[i][j] == true && (j-i+1) > len(ret) {
 				ret = s[i : j+1]
 			}
 		}
