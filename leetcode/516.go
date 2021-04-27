@@ -1,5 +1,7 @@
 package leetcode
 
+// 时间: O(n2)
+// 空间: O(n2)
 func longestPalindromeSubseq(s string) int {
 	n := len(s)
 	dp := make([][]int, n)
