@@ -1,11 +1,14 @@
 package main
 
+import "fmt"
+
 func main() {
-	root := new(TreeNode)
-	root.Right = &TreeNode{
+	r := new(TreeNode)
+	r.Right = &TreeNode{
 		Val: 4,
 	}
-	kthLargest(root, 2)
+	fmt.Println("hello world")
+	kthLargest(r, 2)
 }
 
 /**
