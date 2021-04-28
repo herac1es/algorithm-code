@@ -50,31 +50,27 @@ package leetcode
 // 👍 2247 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
+// 时间：O(n)
+// 空间: O(1)
 func maxArea(height []int) int {
-	left := 0
-	right := len(height) - 1
-	max := getMin(height[left], height[right]) * (right - left)
-	for left < right {
-		if height[left] > height[right] {
-			right--
+	i, j := 0, len(height)-1
+	volume := -1
+	for i < j {
+		volume = max(volume, getVolume(height, i, j))
+		// 容器的体积由较低的侧高决定
+		// 从最外侧向里收缩，容器的底一定变小，若收缩高侧，（上限被低测限制）容积一定是减少或者不变，而收缩低测才有可能容积变大，所以每次选择高度低的一侧向里收缩
+		if height[i] < height[j] {
+			i++
 		} else {
-			left++
-		}
-		if left >= right {
-			break
-		}
-		if area := getMin(height[left], height[right]) * (right - left); area > max {
-			max = area
+			j--
 		}
 	}
-	return max
+	return volume
 }
 
-func getMin(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
+// 计算容积
+func getVolume(height []int, i, j int) int {
+	return min(height[i], height[j]) * (j - i)
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
