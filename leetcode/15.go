@@ -1,6 +1,8 @@
 package leetcode
 
-import "sort"
+import (
+	"github.com/herac1es/algorithm-code/classic"
+)
 
 //给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重
 //复的三元组。
@@ -42,40 +44,38 @@ import "sort"
 // 👍 3058 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
-func ThreeSum(nums []int) [][]int {
-	if len(nums) < 3 {
-		return [][]int{}
-	}
-	sort.Slice(nums, func(i, j int) bool {
-		return nums[i] < nums[j]
-	})
+// 时间: O(n2)
+// 空间: O(1)
+func threeSum(nums []int) [][]int {
+	classic.QuickSort(nums)
 	ret := make([][]int, 0)
-	for idx := 0; idx <= len(nums)-3; {
-		i, j := idx+1, len(nums)-1
-		target := nums[idx]
-		for i < j {
-			sum := target + nums[i] + nums[j]
+
+	for i := 0; i < len(nums); {
+		l, r := i+1, len(nums)-1
+		for l < r {
+			sum := nums[l] + nums[r] + nums[i]
 			if sum == 0 {
-				ret = append(ret, []int{nums[idx], nums[i], nums[j]})
-				t := nums[i]
-				for i < len(nums) && nums[i] == t {
-					i++
+				ret = append(ret, []int{nums[i], nums[l], nums[r]})
+			}
+			// 右指针左移
+			rv := nums[r]
+			if sum == 0 || sum > 0 {
+				for r > l && nums[r] == rv {
+					r--
 				}
-				j = len(nums) - 1
-			} else if sum > 0 {
-				t := nums[j]
-				for j > i && nums[j] == t {
-					j--
-				}
-			} else if sum < 0 {
-				t := nums[i]
-				for i < j && nums[i] == t {
-					i++
+			}
+			// 左指针右移
+			lv := nums[l]
+			if sum == 0 || sum < 0 {
+				for l < r && nums[l] == lv {
+					l++
 				}
 			}
 		}
-		for idx < len(nums) && nums[idx] == target {
-			idx++
+
+		iv := nums[i]
+		for i < len(nums) && nums[i] == iv {
+			i++
 		}
 	}
 	return ret
