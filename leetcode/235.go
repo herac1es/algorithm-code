@@ -45,6 +45,9 @@ package leetcode
  * }
  */
 
+// 递归：
+// 时间: O(n)
+// 空间: O(height)
 func lowestCommonAncestorBST(root, p, q *TreeNode) *TreeNode {
 	if root == nil || root == p || root == q {
 		return root
@@ -59,3 +62,22 @@ func lowestCommonAncestorBST(root, p, q *TreeNode) *TreeNode {
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
+// 迭代
+// 时间：O(n)
+// 空间: O(1)
+func lowestCommonAncestorII(root, p, q *TreeNode) *TreeNode {
+	if root == nil || p == nil || q == nil {
+		return nil
+	}
+	ptr := root
+	for ptr != nil {
+		if ptr.Val < p.Val && ptr.Val < q.Val {
+			ptr = ptr.Right
+		} else if ptr.Val > p.Val && ptr.Val > q.Val {
+			ptr = ptr.Left
+		} else {
+			return ptr
+		}
+	}
+	return nil
+}
