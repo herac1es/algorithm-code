@@ -1,23 +1,19 @@
 package leetcode
 
-func MaxProfit121(prices []int) int {
-	n := len(prices)
-	dp := make([][2]int, n)
-	for i := 0; i < n; i++ {
-		if i == 0 {
-			dp[i][0] = 0
-			dp[i][1] = -prices[i]
-			continue
+// dp[i] : 在i对应的这一天卖出，所能取得的最大收益
+// dp[i] = prices[i] - prices[0, i) 的最小值
+// 时间: O(n)
+// 空间: O(1)
+func maxProfit(prices []int) int {
+	min := prices[0]
+	ret := 0
+	for i := 1; i < len(prices); i++ {
+		if prices[i]-min > ret {
+			ret = prices[i] - min
 		}
-		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
-		dp[i][1] = max(-prices[i], dp[i-1][1])
+		if prices[i] < min {
+			min = prices[i]
+		}
 	}
-	return dp[n-1][0]
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+	return ret
 }
