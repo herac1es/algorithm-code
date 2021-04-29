@@ -28,3 +28,10 @@ func MaxProfit188(k int, prices []int) int {
 	}
 	return dp[n-1][k][0]
 }
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
