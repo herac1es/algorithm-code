@@ -1,7 +1,5 @@
 package leetcode
 
-import "container/list"
-
 //给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位
 //。
 //
@@ -63,120 +61,33 @@ import "container/list"
 //
 // Related Topics 堆 Sliding Window
 // 👍 885 👎 0
-
-//leetcode submit region begin(Prohibit modification and deletion)
+// 时间: O(n)
+// 空间: O(k)
 func maxSlidingWindow(nums []int, k int) []int {
-	// if k == 1 {
-	// 	return nums
-	// }
-	res := make([]int, 1)
-	window := &MonotonousQueue{
-		q: list.New(),
+	if len(nums) == 0 {
+		return nil
 	}
-	for i := 0; i < len(nums); i++ {
-		if i <= k-1 {
-			window.Push(nums[i])
-			res[0] = window.Max()
+	maxQueue := make([]int, 0, len(nums)/k)
+	// 维护一个最长为k的滑动窗口
+	l, r := 0, -1
+	// 栈底的元素 nums[stack[0]] 是滑动窗口当前的最大值
+	// 窗口右边纳入新元素，将栈顶小于等于此值的元素都出栈 （存索引）
+	// 当窗口左边删除元素，检查是否是否为栈底元素，是的话，删除栈底元素
+	maxStack := make([]int, 0, len(nums))
+	for r < len(nums) && l < len(nums) {
+		if r-l+1 == k {
+			maxQueue = append(maxQueue, nums[maxStack[0]])
+			if l == maxStack[0] {
+				maxStack = maxStack[1:]
+			}
+			l++
 		} else {
-			window.Push(nums[i])
-			window.Pop(nums[i-k])
-			res = append(res, window.Max())
+			r++
+			for r < len(nums) && len(maxStack) > 0 && nums[maxStack[len(maxStack)-1]] <= nums[r] {
+				maxStack = maxStack[:len(maxStack)-1]
+			}
+			maxStack = append(maxStack, r)
 		}
 	}
-	return res
+	return maxQueue
 }
-
-// 使用container/list 实现
-type MonotonousQueue struct {
-	q *list.List
-}
-
-func (m *MonotonousQueue) Push(val int) {
-	for m.q.Len() > 0 && m.q.Back().Value.(int) < val {
-		m.q.Remove(m.q.Back())
-	}
-	m.q.PushBack(val)
-}
-
-func (m *MonotonousQueue) Pop(val int) {
-	if m.q.Len() > 0 && m.q.Front().Value.(int) == val {
-		m.q.Remove(m.q.Front())
-	}
-}
-
-func (m *MonotonousQueue) Max() int {
-	return m.q.Front().Value.(int)
-}
-
-// 自我实现
-// type MonotonousQueue struct {
-// 	Back  *DeNode
-// 	Front *DeNode
-// }
-//
-// type DeNode struct {
-// 	Val       int
-// 	Pre, Next *DeNode
-// }
-//
-// func (q *MonotonousQueue) Push(val int) {
-// 	for !q.IsEmpty() && q.Back.Val < val {
-// 		q.PopBack()
-// 	}
-// 	q.PushBack(val)
-// }
-// func (q *MonotonousQueue) Pop(val int) {
-// 	if !q.IsEmpty() && q.Front.Val == val {
-// 		q.PopFront()
-// 	}
-// }
-//
-// func (q *MonotonousQueue) Max() int {
-// 	if q.IsEmpty() {
-// 		return 0
-// 	}
-// 	return q.Front.Val
-// }
-//
-// func (q *MonotonousQueue) PopBack() *DeNode {
-// 	ret := q.Back
-// 	if q.Front == q.Back {
-// 		q.Back, q.Front = nil, nil
-// 		return ret
-// 	}
-// 	q.Back = q.Back.Pre
-// 	q.Back.Next = nil
-// 	return ret
-// }
-//
-// func (q *MonotonousQueue) PushBack(val int) {
-// 	node := &DeNode{
-// 		Val: val,
-// 	}
-// 	if q.IsEmpty() {
-// 		q.Front = node
-// 		q.Back = node
-// 		return
-// 	}
-// 	q.Back.Next = node
-// 	node.Pre = q.Back
-// 	q.Back = node
-// }
-//
-// func (q *MonotonousQueue) PopFront() *DeNode {
-// 	ret := q.Front
-// 	if q.Front == q.Back {
-// 		q.Front = nil
-// 		q.Back = nil
-// 	} else {
-// 		q.Front = q.Front.Next
-// 		q.Front.Pre = nil
-// 	}
-// 	return ret
-// }
-//
-// func (q *MonotonousQueue) IsEmpty() bool {
-// 	return q.Back == q.Front && q.Back == nil
-// }
-
-//leetcode submit region end(Prohibit modification and deletion)
