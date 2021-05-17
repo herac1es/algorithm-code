@@ -3,11 +3,10 @@ package classic
 // 归并排序
 // 时间：O(nlgN)
 // 空间：O(n)
-var aux []int
 
 func MergeSort(nums []int) []int {
 	// mergeSort(nums, 0, len(nums)-1)
-	mergeSort(nums)
+	mergeSortII(nums, 0, len(nums)-1)
 	return nums
 }
 
@@ -36,28 +35,30 @@ func mergeSortII(nums []int, l, r int) {
 	mid := l + (r-l)/2
 	mergeSortII(nums, l, mid)
 	mergeSortII(nums, mid+1, r)
-	merge(nums, l, mid, r)
+	merge(nums, l, mid+1, r)
 }
 
 func merge(nums []int, l, mid, r int) {
-	if len(aux) == 0 {
-		aux = make([]int, len(nums))
-	}
-	i, j := l, mid+1 // 对[l:mid]和[mid+1:r]归并
-	aux = append(aux[:0], nums...)
-	for k := l; k <= r; k++ {
-		if i > mid {
-			nums[k] = aux[j]
+	i, j := l, mid // 对[l:mid-1]和[mid:r]归并
+	aux := make([]int, 0, r-l+1)
+	for i < mid || j <= r {
+		if i >= mid {
+			aux = append(aux, nums[j])
 			j++
 		} else if j > r {
-			nums[k] = aux[i]
+			aux = append(aux, nums[i])
 			i++
-		} else if aux[i] <= aux[j] {
-			nums[k] = aux[i]
+		} else if nums[i] <= nums[j] {
+			aux = append(aux, nums[i])
 			i++
 		} else {
-			nums[k] = aux[j]
+			aux = append(aux, nums[j])
 			j++
 		}
+	}
+	i = l
+	for _, v := range aux {
+		nums[i] = v
+		i++
 	}
 }
