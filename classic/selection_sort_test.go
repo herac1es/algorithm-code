@@ -37,7 +37,7 @@ func TestSort(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := QuickSort(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
+			if got := BubbleSort(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("SelectionSort() = %v, want %v", got, tt.want)
 			}
 		})
